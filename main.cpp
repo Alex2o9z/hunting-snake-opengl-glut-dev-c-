@@ -71,7 +71,7 @@ void display_callback()
 				break;
 			}
 			case IDRETRY: {
-        		//play again
+        		//play again 
 				score = 0;
 				reset_snake();
 				game_over=false;
