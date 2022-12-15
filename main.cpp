@@ -3,14 +3,15 @@
 #include <fstream>
 #include "game.h"
 
-#define ROWS 20.0
-#define COLUMNS 25.0
-
 std::ofstream ofile;
 std::ifstream ifile;
 bool game_over=false;
 extern int sDirection;
 int score=0;
+extern int SPEED;
+extern int length;
+char WINDOW_TITLE[50]= "HUNTING SNAKE - current score: ";
+//char WINDOW_TITLE[50]= "HUNTING SNAKE";
 
 void init();
 void display_callback();
@@ -23,14 +24,20 @@ int main(int argc,char**argv)
     glutInit(&argc,argv);
     glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
     glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH)-640)/2 - 75, 20); //(glutGet(GLUT_SCREEN_HEIGHT)-480)/2
-    glutInitWindowSize(750,600);
-    glutCreateWindow("HUNTING SNAKE");
+    glutInitWindowSize(950,600);
+    
+    char str_score[10];
+    sprintf(str_score, "%d", score);
+    strcat(WINDOW_TITLE,str_score);
+    glutCreateWindow(WINDOW_TITLE);
+    
     glutDisplayFunc(display_callback);
     glutReshapeFunc(reshape_callback);
     glutSpecialFunc(input_callback);
     glutTimerFunc(100,timer_callback,0);
     init();
     glutMainLoop();
+    
     return 0;
 }
 
@@ -55,14 +62,29 @@ void display_callback()
         std::cout<<a;
         char text[50]= "Oh no your snake has hit its head! \n Your score: ";
         strcat(text,a);
-        MessageBox(NULL,text,"Game Over",MB_RETRYCANCEL);
-        exit(0);
+//        MessageBox(NULL,text,"GAME OVER !!!",0);
+		//MB_ICONINFORMATION,MB_RETRYCANCEL
+        switch (MessageBox(NULL,text,"GAME OVER !!!",0x00000045L)) {
+        	case IDCANCEL: case IDNO: {
+        		//exit game 
+				exit(0);
+				break;
+			}
+			case IDRETRY: {
+        		//play again
+				score = 0;
+				reset_snake();
+				game_over=false;
+				break;
+			}
+		}
     }
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
     draw_grid();
     draw_food();
     draw_snake();
+    draw_info();
     glutSwapBuffers();
 }
 void reshape_callback(int w, int h)
@@ -70,14 +92,14 @@ void reshape_callback(int w, int h)
     glViewport(0,0,(GLfloat)w,GLfloat(h));
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0,COLUMNS,0.0,ROWS,-1.0,1.0);
+    glOrtho(0.0,COLUMNS+COLUMNS_INFO,0.0,ROWS,-1.0,1.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
 void timer_callback(int)
 {
     glutPostRedisplay();
-    glutTimerFunc(100,timer_callback,0);
+    glutTimerFunc(SPEED,timer_callback,0);
 }
 void input_callback(int key,int x,int y)
 {
