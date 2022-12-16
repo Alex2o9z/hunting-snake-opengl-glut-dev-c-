@@ -54,9 +54,13 @@ void draw_snake()
     {
         glColor3f(0.0,0.0,1.0);
         glBegin(GL_QUADS);
-            glVertex2d(posx[i],posy[i]); glVertex2d(posx[i]+1,posy[i]);
-			glVertex2d(posx[i]+1,posy[i]+1); glVertex2d(posx[i],posy[i]+1);
+            glVertex2d(posx[i],posy[i]);
+			glVertex2d(posx[i]+1,posy[i]);
+			glVertex2d(posx[i]+1,posy[i]+1);
+			glVertex2d(posx[i],posy[i]+1);
         glEnd();
+        
+        // check HEAD
         if(i==0)
         {
             switch(sDirection)
@@ -74,6 +78,8 @@ void draw_snake()
                 posx[i]--;
                 break;
             }
+            
+            // handle hit the wall
             if(posx[i]==0||posx[i]==columns-1||posy[i]==0||posy[i]==rows-1)
                 game_over=true;
             else if(posx[i]==foodx && posy[i]==foody)
@@ -84,7 +90,9 @@ void draw_snake()
                     length_inc=true;
                 if(length==MAX)
                     MessageBox(NULL,"You Win\nYou can still keep playing but the snake will not grow.","Awsome",0);
-            }
+            } // handle eat food
+            
+            // handle hit itself
             for(int j=1;j<length;j++)
             {
                 if(posx[j]==posx[0] && posy[j]==posy[0])
@@ -239,8 +247,8 @@ void draw_food()
 
 void draw_info() {
 	glLoadIdentity();
-	char title[50] = "HU";
-	int startx = columns+1, starty = rows-2;
+//	char title[50] = "HU";
+//	int startx = columns+1, starty = rows-2;
 //	int endx = columns+COLUMNS_INFO-1, endy = rows;
 	
 //	draw_text(H1, STYLE_1, columns+1, rows-2, columns+COLUMNS_INFO-1, rows, title);
@@ -304,12 +312,6 @@ void unit_info(int x,int y)
 		glVertex2d(x+1,y+1);
 		glVertex2d(x,y+1);
     glEnd();
-//    glBegin(GL_LINES);
-//    	glColor3f(0.0,0.0,0.0);
-//       	glVertex2d(x,y); glVertex2d(x,y+1);
-//        glVertex2d(x,y+0.5); glVertex2d(x+1,y+0.5);
-//    	glVertex2d(x+1,y); glVertex2d(x+1,y+1);
-//    glEnd();
 
     glColor3f(0.5,0.5,0.5);
 	glLineWidth(7.0);

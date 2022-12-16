@@ -11,7 +11,6 @@ int score=0;
 extern int SPEED;
 extern int length;
 char WINDOW_TITLE[50]= "HUNTING SNAKE - current score: ";
-//char WINDOW_TITLE[50]= "HUNTING SNAKE";
 
 void init();
 void display_callback();
@@ -26,6 +25,7 @@ int main(int argc,char**argv)
     glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH)-640)/2 - 75, 20); //(glutGet(GLUT_SCREEN_HEIGHT)-480)/2
     glutInitWindowSize(950,600);
     
+    // update score title
     char str_score[10];
     sprintf(str_score, "%d", score);
     strcat(WINDOW_TITLE,str_score);
