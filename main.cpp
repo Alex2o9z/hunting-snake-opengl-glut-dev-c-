@@ -11,6 +11,9 @@ int score=0;
 extern int SPEED;
 extern int length;
 char WINDOW_TITLE[50]= "HUNTING SNAKE - current score: ";
+char str_score[4];
+char data[4];
+int high_score;
 
 void init();
 void display_callback();
@@ -26,7 +29,6 @@ int main(int argc,char**argv)
     glutInitWindowSize(950,600);
     
     // update score title
-    char str_score[10];
     sprintf(str_score, "%d", score);
     strcat(WINDOW_TITLE,str_score);
     glutCreateWindow(WINDOW_TITLE);
@@ -53,26 +55,54 @@ void display_callback()
 {
     if(game_over)
     {
-        ofile.open("score.dat",std::ios::trunc);
-        ofile<<score<<std::endl;
-        ofile.close();
-        ifile.open("score.dat",std::ios::in);
-        char a[4];
-        ifile>>a;
-        std::cout<<a;
-        char text[50]= "Oh no your snake has hit its head! \n Your score: ";
-        strcat(text,a);
-//        MessageBox(NULL,text,"GAME OVER !!!",0);
+    	ifile.open("score.dat",std::ios::in);
+    	// check empty file
+        if(ifile.peek() == std::ifstream::traits_type::eof()) {
+        	high_score = 0;
+		} else {
+			ifile>>data;
+			for(int i=0; i<strlen(data); i++) {
+        		if(i>0) {
+        			high_score = high_score*10 + ((int)data[i] - 48);
+				} else {
+					high_score = (int)data[i] - 48;
+				}
+			}
+		}
+		ifile.close();
+        
+		if (score > high_score) {
+			ofile.open("score.dat",std::ios::trunc);
+			ofile<<score<<std::endl;
+    		ofile.close();
+    		ifile.open("score.dat",std::ios::in);
+    		ifile>>data;
+    		ifile.close();
+		}
+        
+//        ofile.open("score.dat",std::ios::trunc);
+//        ofile<<score<<std::endl;
+//        ofile.close();
+//        ifile.open("score.dat",std::ios::in);
+//        char a[4];
+//        ifile>>a;
+//        std::cout<<a;
+        
+        char text[60]= "Oh no, Snake has hit its head!\nYour score: ";
+        sprintf(str_score, "%d", score);
+    	strcat(text,str_score);
+    	strcat(text,"\nHigh score: ");
+    	strcat(text,data);
+        
 		//MB_ICONINFORMATION,MB_RETRYCANCEL
         switch (MessageBox(NULL,text,"GAME OVER !!!",0x00000045L)) {
         	case IDCANCEL: case IDNO: {
-        		//exit game 
+        		//exit game
 				exit(0);
 				break;
 			}
 			case IDRETRY: {
-        		//play again 
-				score = 0;
+        		//play again
 				reset_snake();
 				game_over=false;
 				break;

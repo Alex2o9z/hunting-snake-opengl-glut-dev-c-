@@ -11,6 +11,7 @@ int random(int,int);
 bool length_inc=false;
 bool seedflag = false;
 extern int score;
+extern char str_score[4];
 extern bool game_over;
 bool food=false;
 int rows=0,columns=0;
@@ -179,7 +180,6 @@ void draw_snake()
 		}
 		
 		// update score title
-    	char str_score[10];
     	sprintf(str_score, "%d", score);
     	char SCORE_TITLE[50] = "HUNTING SNAKE - current score: ";
     	strcat(SCORE_TITLE,str_score);
@@ -350,6 +350,7 @@ int random(int _min,int _max)
 }
 
 void reset_snake() {
+	score = 0;
 	length = DEFAULT_LENGTH;
 	SPEED = DEFAULT_SPEED;
 	for (int i=0; i<length; i++) {
@@ -357,4 +358,10 @@ void reset_snake() {
 		posy[i] = 10;
 	}
 	sDirection = RIGHT;
+	
+	// update score title
+    sprintf(str_score, "%d", score);
+    char SCORE_TITLE[50] = "HUNTING SNAKE - current score: ";
+    strcat(SCORE_TITLE,str_score);
+    glutSetWindowTitle(SCORE_TITLE);
 }
