@@ -45,7 +45,6 @@ int main(int argc,char**argv)
 
 void init()
 {
-//    glClearColor(0.0,0.0,0.0,0.0);
 	glClearColor(0.7,0.8,0.3,0.5);
     initGrid(COLUMNS,ROWS);
 }
@@ -53,41 +52,33 @@ void init()
 //Callbacks
 void display_callback()
 {
-    if(game_over)
-    {
-    	ifile.open("score.dat",std::ios::in);
-    	// check empty file
-        if(ifile.peek() == std::ifstream::traits_type::eof()) {
-        	high_score = 0;
-		} else {
-			ifile>>data;
-			for(int i=0; i<strlen(data); i++) {
-        		if(i>0) {
-        			high_score = high_score*10 + ((int)data[i] - 48);
-				} else {
-					high_score = (int)data[i] - 48;
-				}
+    ifile.open("score.dat",std::ios::in);
+    // check empty file
+    if(ifile.peek() == std::ifstream::traits_type::eof()) {
+    	high_score = 0;
+	} else {
+		ifile>>data;
+		for(int i=0; i<strlen(data); i++) {
+        	if(i>0) {
+        		high_score = high_score*10 + ((int)data[i] - 48);
+			} else {
+				high_score = (int)data[i] - 48;
 			}
 		}
-		ifile.close();
+	}
+	ifile.close();
         
-		if (score > high_score) {
-			ofile.open("score.dat",std::ios::trunc);
-			ofile<<score<<std::endl;
-    		ofile.close();
-    		ifile.open("score.dat",std::ios::in);
-    		ifile>>data;
-    		ifile.close();
-		}
-        
-//        ofile.open("score.dat",std::ios::trunc);
-//        ofile<<score<<std::endl;
-//        ofile.close();
-//        ifile.open("score.dat",std::ios::in);
-//        char a[4];
-//        ifile>>a;
-//        std::cout<<a;
-        
+	if (score > high_score) {
+		ofile.open("score.dat",std::ios::trunc);
+		ofile<<score<<std::endl;
+    	ofile.close();
+    	ifile.open("score.dat",std::ios::in);
+    	ifile>>data;
+    	ifile.close();
+	}
+	
+	if(game_over)
+    {
         char text[60]= "Oh no, Snake has hit its head!\nYour score: ";
         sprintf(str_score, "%d", score);
     	strcat(text,str_score);

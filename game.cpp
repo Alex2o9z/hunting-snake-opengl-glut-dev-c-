@@ -2,7 +2,7 @@
 #include <iostream>
 #include <ctime>
 #include "game.h"
-#include "displaytext.h"
+#include "displayinfo.h"
 
 void unit(int,int);
 void unit_info(int,int);
@@ -247,13 +247,7 @@ void draw_food()
 
 void draw_info() {
 	glLoadIdentity();
-//	char title[50] = "HU";
-//	int startx = columns+1, starty = rows-2;
-//	int endx = columns+COLUMNS_INFO-1, endy = rows;
-	
-//	draw_text(H1, STYLE_1, columns+1, rows-2, columns+COLUMNS_INFO-1, rows, title);
-	draw_text_byhand(columns, rows);
-	
+	draw_info_content(columns, rows);
 }
 
 void unit(int x,int y)
