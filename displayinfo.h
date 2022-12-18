@@ -1,10 +1,13 @@
 #ifndef DISPLAYINFO_H_INCLUDED
 #define DISPLAYINFO_H_INCLUDED
 
-#define H1 0.9
-#define H2 0.6
-#define STYLE_1 1
-#define STYLE_2 2
+#define H1 5.0
+#define H2 4.0
+#define H3 3.0
+#define H4 2.0
+#define H5 1.0
+#define START_I 0
+#define END_I -1
 
 void draw_info_content(int columns, int rows);
 

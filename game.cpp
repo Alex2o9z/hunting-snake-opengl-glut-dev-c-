@@ -13,12 +13,12 @@ bool seedflag = false;
 extern int score;
 extern char str_score[4];
 extern bool game_over;
+int sDirection = RIGHT;
 bool food=false;
 int rows=0,columns=0;
-int sDirection = RIGHT;
 int foodx,foody;
-int posx[MAX+1]={4,3,2,1,0,-1,-1};
-int posy[MAX+1]={10,10,10,10,10,10,10};
+int posx[MAX+1]={5,4,3,2};
+int posy[MAX+1]={10,10,10,10};
 int length=DEFAULT_LENGTH;
 int SPEED=DEFAULT_SPEED;
 extern char WINDOW_TITLE[50];
@@ -46,38 +46,32 @@ void draw_grid()
 
 void draw_snake()
 {
-    for(int i =length-1;i>0;i--)
+    for(int i=length-1;i>0;i--)
     {
         posx[i]=posx[i-1];
         posy[i]=posy[i-1];
     }
     for(int i=0;i<length;i++)
     {
-        glColor3f(0.0,0.0,1.0);
-        glBegin(GL_QUADS);
-            glVertex2d(posx[i],posy[i]);
-			glVertex2d(posx[i]+1,posy[i]);
-			glVertex2d(posx[i]+1,posy[i]+1);
-			glVertex2d(posx[i],posy[i]+1);
-        glEnd();
-        
         // check HEAD
-        if(i==0)
-        {
-            switch(sDirection)
-            {
-            case UP:
-                posy[i]++;
-                break;
-            case DOWN:
-                posy[i]--;
-                break;
-            case RIGHT:
-                posx[i]++;
-                break;
-            case LEFT:
-                posx[i]--;
-                break;
+        if(i==0) {
+            switch(sDirection) {
+            	case UP: {
+            		posy[i]++;
+					break;
+				}
+            	case DOWN: {
+            		posy[i]--;
+					break;
+				}
+            	case RIGHT: {
+            		posx[i]++;
+					break;
+				}
+            	case LEFT: {
+            		posx[i]--;
+                	break;
+				}
             }
             
             // handle hit the wall
@@ -90,7 +84,7 @@ void draw_snake()
                 if(length<=MAX)
                     length_inc=true;
                 if(length==MAX)
-                    MessageBox(NULL,"You Win\nYou can still keep playing but the snake will not grow.","Awsome",0);
+                    MessageBox(NULL,"You can still keep playing but the snake will not grow.","WIN !!!",0);
             } // handle eat food
             
             // handle hit itself
@@ -100,6 +94,7 @@ void draw_snake()
                     game_over=true;
             }
             // Draw head
+            glColor3f(0.4,0.5,1.0);
         	glBegin(GL_QUADS);
             	glVertex2d(posx[i],posy[i]); glVertex2d(posx[i]+1,posy[i]);
 				glVertex2d(posx[i]+1,posy[i]+1); glVertex2d(posx[i],posy[i]+1);
@@ -169,7 +164,15 @@ void draw_snake()
 					glVertex2d(posx[i]+1-0.2+b,posy[i]+1-0.6-0.1); glVertex2d(posx[i]+0.2+a,posy[i]+1-0.6-0.1);
         		glEnd();
 			}
-        }
+        } else {
+        	glColor3f(0.4,0.5,1.0);
+        	glBegin(GL_QUADS);
+        	    glVertex2d(posx[i],posy[i]);
+				glVertex2d(posx[i]+1,posy[i]);
+				glVertex2d(posx[i]+1,posy[i]+1);
+				glVertex2d(posx[i],posy[i]+1);
+        	glEnd();
+		}
     }
     if(length_inc)
     {
@@ -299,7 +302,7 @@ void unit(int x,int y)
 void unit_info(int x,int y)
 {
     glLoadIdentity();
-    glColor3f(1.0,1.0,1.0);
+    glColor3f(0.9,0.9,0.9);
     glBegin(GL_QUADS);
     	glVertex2d(x,y);
 		glVertex2d(x+1,y);
@@ -307,26 +310,27 @@ void unit_info(int x,int y)
 		glVertex2d(x,y+1);
     glEnd();
 
-    glColor3f(0.5,0.5,0.5);
-	glLineWidth(7.0);
+    glColor3f(0.7,0.7,0.7);
+	glLineWidth(11.0);
+	float z = 0.2;
   	if (x==columns) {
     	glBegin(GL_LINES);
-			glVertex2d(x+0.1,y+1); glVertex2d(x+0.1,y);
+			glVertex2d(x+z,y+1); glVertex2d(x+z,y);
    		glEnd();
 	}
 	if (x==columns+COLUMNS_INFO-1) {
     	glBegin(GL_LINES);
-			glVertex2d(x+1-0.1,y); glVertex2d(x+1-0.1,y+1);
+			glVertex2d(x+1-z,y); glVertex2d(x+1-z,y+1);
    		glEnd();
 	}
 	if (y==0) {
     	glBegin(GL_LINES);
-    	    glVertex2d(x+1,y+0.1); glVertex2d(x,y+0.1);
+    	    glVertex2d(x+1,y+z); glVertex2d(x,y+z);
    		glEnd();
 	}
 	if (y==rows-1) {
     	glBegin(GL_LINES);
-    	  	glVertex2d(x+1,y+1-0.1); glVertex2d(x,y+1-0.1);
+    	  	glVertex2d(x+1,y+1-z); glVertex2d(x,y+1-z);
    		glEnd();
 	}
 	glLineWidth(1.0);
