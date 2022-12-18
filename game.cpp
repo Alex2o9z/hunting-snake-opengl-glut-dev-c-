@@ -53,9 +53,8 @@ void draw_snake()
     }
     for(int i=0;i<length;i++)
     {
-        // check HEAD
-        if(i==0) {
-            switch(sDirection) {
+    	if (i == 0) {
+    		switch(sDirection) {
             	case UP: {
             		posy[i]++;
 					break;
@@ -73,7 +72,52 @@ void draw_snake()
                 	break;
 				}
             }
-            
+		}
+		
+		// Draw base snake
+    	glColor3f(0.4,0.5,1.0);
+        glBegin(GL_QUADS);
+        	glVertex2d(posx[i],posy[i]);
+			glVertex2d(posx[i]+1,posy[i]);
+			glVertex2d(posx[i]+1,posy[i]+1);
+			glVertex2d(posx[i],posy[i]+1);
+        glEnd();
+        glColor3f(0.0,0.0,0.0);
+		if (posy[i] != posy[i+1] || posy[i] != posy[i-1]) {
+			// line right
+			if (posx[i]+1 != posx[i+1] && posx[i]+1 != posx[i-1]) {
+				glBegin(GL_LINES);
+					glVertex2d(posx[i]+1,posy[i]);
+					glVertex2d(posx[i]+1,posy[i]+1);
+        		glEnd();
+			}
+			// line right
+			if (posx[i]-1 != posx[i+1] && posx[i]-1 != posx[i-1]) {
+				glBegin(GL_LINES);
+					glVertex2d(posx[i],posy[i]);
+					glVertex2d(posx[i],posy[i]+1);
+        		glEnd();
+			}
+		}
+		if (posx[i] != posx[i+1] || posx[i] != posx[i-1]) {
+			// line up
+			if (posy[i]+1 != posy[i+1] && posy[i]+1 != posy[i-1]) {
+				glBegin(GL_LINES);
+					glVertex2d(posx[i],posy[i]+1);
+					glVertex2d(posx[i]+1,posy[i]+1);
+        		glEnd();
+			}
+			// line down
+			if (posy[i]-1 != posy[i+1] && posy[i]-1 != posy[i-1]) {
+				glBegin(GL_LINES);
+					glVertex2d(posx[i],posy[i]);
+					glVertex2d(posx[i]+1,posy[i]);
+        		glEnd();
+			}
+		}
+		
+        // check HEAD
+        if(i==0) {
             // handle hit the wall
             if(posx[i]==0||posx[i]==columns-1||posy[i]==0||posy[i]==rows-1)
                 game_over=true;
@@ -84,7 +128,7 @@ void draw_snake()
                 if(length<=MAX)
                     length_inc=true;
                 if(length==MAX)
-                    MessageBox(NULL,"You can still keep playing but the snake will not grow.","WIN !!!",0);
+                    MessageBox(NULL,"You can still keep playing but the snake will not grow.","WIN !!!",0x00000040L);
             } // handle eat food
             
             // handle hit itself
@@ -93,29 +137,33 @@ void draw_snake()
                 if(posx[j]==posx[0] && posy[j]==posy[0])
                     game_over=true;
             }
-            // Draw head
-            glColor3f(0.4,0.5,1.0);
-        	glBegin(GL_QUADS);
-            	glVertex2d(posx[i],posy[i]); glVertex2d(posx[i]+1,posy[i]);
-				glVertex2d(posx[i]+1,posy[i]+1); glVertex2d(posx[i],posy[i]+1);
-        	glEnd();
-    		
+            
     		// Draw eyes
     		glColor3f(1.0,1.0,1.0);
     		if (sDirection == UP || sDirection == DOWN) {
-    			//white
-    			// left eye
+    			// White - left eye
+    			glColor3f(1.0,1.0,1.0);
     			glBegin(GL_QUADS);
             		glVertex2d(posx[i]-0.2,posy[i]+0.2); glVertex2d(posx[i]+1-0.6,posy[i]+0.2);
 					glVertex2d(posx[i]+1-0.6,posy[i]+1-0.2); glVertex2d(posx[i]-0.2,posy[i]+1-0.2);
         		glEnd();
-        		// right eye
+//        		glColor3f(0.0,0.0,0.0);
+//        		glBegin(GL_LINE_LOOP);
+//            		glVertex2d(posx[i]-0.2,posy[i]+0.2); glVertex2d(posx[i]+1-0.6,posy[i]+0.2);
+//					glVertex2d(posx[i]+1-0.6,posy[i]+1-0.2); glVertex2d(posx[i]-0.2,posy[i]+1-0.2);
+//        		glEnd();
+        		// White - right eye
+        		glColor3f(1.0,1.0,1.0);
         		glBegin(GL_QUADS);
             		glVertex2d(posx[i]+0.6,posy[i]+0.2); glVertex2d(posx[i]+1+0.2,posy[i]+0.2);
 					glVertex2d(posx[i]+1+0.2,posy[i]+1-0.2); glVertex2d(posx[i]+0.6,posy[i]+1-0.2);
         		glEnd();
+//        		glColor3f(0.0,0.0,0.0);
+//        		glBegin(GL_LINE_LOOP);
+//            		glVertex2d(posx[i]+0.6,posy[i]+0.2); glVertex2d(posx[i]+1+0.2,posy[i]+0.2);
+//					glVertex2d(posx[i]+1+0.2,posy[i]+1-0.2); glVertex2d(posx[i]+0.6,posy[i]+1-0.2);
+//        		glEnd();
         		
-        		//black
         		glColor3f(0.0,0.0,0.0);
         		float a,b;
         		if (sDirection == UP) {
@@ -123,29 +171,40 @@ void draw_snake()
 				} else {
 					a = 0.0; b = -0.4;
 				}
-        		// left eye
+        		// Black - left eye
     			glBegin(GL_QUADS);
             		glVertex2d(posx[i]-0.2+0.1,posy[i]+0.2+a); glVertex2d(posx[i]+1-0.6-0.1,posy[i]+0.2+a);
 					glVertex2d(posx[i]+1-0.6-0.1,posy[i]+1+b); glVertex2d(posx[i]-0.2+0.1,posy[i]+1+b);
         		glEnd();
-        		// right eye
+        		// Black - right eye
         		glBegin(GL_QUADS);
             		glVertex2d(posx[i]+0.6+0.1,posy[i]+0.2+a); glVertex2d(posx[i]+1+0.2-0.1,posy[i]+0.2+a);
 					glVertex2d(posx[i]+1+0.2-0.1,posy[i]+1+b); glVertex2d(posx[i]+0.6+0.1,posy[i]+1+b);
         		glEnd();
 			} else {
-				// above eye
+				// White - above eye
+				glColor3f(1.0,1.0,1.0);
 				glBegin(GL_QUADS);
             		glVertex2d(posx[i]+0.2,posy[i]+0.6); glVertex2d(posx[i]+1-0.2,posy[i]+0.6);
 					glVertex2d(posx[i]+1-0.2,posy[i]+1+0.2); glVertex2d(posx[i]+0.2,posy[i]+1+0.2);
         		glEnd();
-        		// under eye
+//        		glColor3f(0.0,0.0,0.0);
+//        		glBegin(GL_LINE_LOOP);
+//            		glVertex2d(posx[i]+0.2,posy[i]+0.6); glVertex2d(posx[i]+1-0.2,posy[i]+0.6);
+//					glVertex2d(posx[i]+1-0.2,posy[i]+1+0.2); glVertex2d(posx[i]+0.2,posy[i]+1+0.2);
+//        		glEnd();
+        		// White - under eye
+        		glColor3f(1.0,1.0,1.0);
         		glBegin(GL_QUADS);
             		glVertex2d(posx[i]+0.2,posy[i]-0.2); glVertex2d(posx[i]+1-0.2,posy[i]-0.2);
 					glVertex2d(posx[i]+1-0.2,posy[i]+1-0.6); glVertex2d(posx[i]+0.2,posy[i]+1-0.6);
         		glEnd();
+//        		glColor3f(0.0,0.0,0.0);
+//        		glBegin(GL_LINE_LOOP);
+//            		glVertex2d(posx[i]+0.2,posy[i]-0.2); glVertex2d(posx[i]+1-0.2,posy[i]-0.2);
+//					glVertex2d(posx[i]+1-0.2,posy[i]+1-0.6); glVertex2d(posx[i]+0.2,posy[i]+1-0.6);
+//        		glEnd();
         		
-        		//black
         		glColor3f(0.0,0.0,0.0);
         		float a,b;
         		if (sDirection == RIGHT) {
@@ -153,26 +212,18 @@ void draw_snake()
 				} else {
 					a = 0.0; b = -0.2;
 				}
-        		// above eye
+        		// Black - above eye
 				glBegin(GL_QUADS);
             		glVertex2d(posx[i]+0.2+a,posy[i]+0.6+0.1); glVertex2d(posx[i]+1-0.2+b,posy[i]+0.6+0.1);
 					glVertex2d(posx[i]+1-0.2+b,posy[i]+1+0.2-0.1); glVertex2d(posx[i]+0.2+a,posy[i]+1+0.2-0.1);
         		glEnd();
-        		// under eye
+        		// Black - under eye
         		glBegin(GL_QUADS);
             		glVertex2d(posx[i]+0.2+a,posy[i]-0.2+0.1); glVertex2d(posx[i]+1-0.2+b,posy[i]-0.2+0.1);
 					glVertex2d(posx[i]+1-0.2+b,posy[i]+1-0.6-0.1); glVertex2d(posx[i]+0.2+a,posy[i]+1-0.6-0.1);
         		glEnd();
 			}
-        } else {
-        	glColor3f(0.4,0.5,1.0);
-        	glBegin(GL_QUADS);
-        	    glVertex2d(posx[i],posy[i]);
-				glVertex2d(posx[i]+1,posy[i]);
-				glVertex2d(posx[i]+1,posy[i]+1);
-				glVertex2d(posx[i],posy[i]+1);
-        	glEnd();
-		}
+        }
     }
     if(length_inc)
     {
