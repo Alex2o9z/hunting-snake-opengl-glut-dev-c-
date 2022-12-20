@@ -20,6 +20,7 @@ void draw_info_content(int columns, int rows) {
     starty = draw_text("HUNTING SNAKE", columns, starty, 0, 1, 0.5, H1, START_I, END_I);
     
     // Draw frame
+    {
     starty -= 4;
 	glColor3f(1.0,1.0,1.0);
 	glBegin(GL_QUADS);
@@ -36,6 +37,7 @@ void draw_info_content(int columns, int rows) {
        	glVertex2d(startx-0.2,starty+3+0.2);
     glEnd();
     starty += 4;
+	}
 	    
     // Draw Text "SCORE"
     glColor3f(0.0,0.0,0.0);
@@ -48,6 +50,7 @@ void draw_info_content(int columns, int rows) {
     draw_numbers(score, columns, starty, 0.5);
     
     // Draw frame
+    {
     starty -= 5;
 	glColor3f(1.0,1.0,1.0);
 	glBegin(GL_QUADS);
@@ -64,6 +67,7 @@ void draw_info_content(int columns, int rows) {
        	glVertex2d(startx-0.2,starty+4+0.2);
     glEnd();
     starty += 5;
+	}
     
     //Draw Text "HIGH SCORE"
     glColor3f(0.0,0.0,0.0);
@@ -86,7 +90,7 @@ void draw_info_content(int columns, int rows) {
     
     glLineWidth(1.0);
 }
-
+ 
 void draw_moveicon(float columns, float startx, float starty) {
 	starty++;
 	startx = columns+2;

@@ -148,22 +148,12 @@ void draw_snake()
             		glVertex2d(posx[i]-0.2,posy[i]+0.2); glVertex2d(posx[i]+1-0.6,posy[i]+0.2);
 					glVertex2d(posx[i]+1-0.6,posy[i]+1-0.2); glVertex2d(posx[i]-0.2,posy[i]+1-0.2);
         		glEnd();
-//        		glColor3f(0.0,0.0,0.0);
-//        		glBegin(GL_LINE_LOOP);
-//            		glVertex2d(posx[i]-0.2,posy[i]+0.2); glVertex2d(posx[i]+1-0.6,posy[i]+0.2);
-//					glVertex2d(posx[i]+1-0.6,posy[i]+1-0.2); glVertex2d(posx[i]-0.2,posy[i]+1-0.2);
-//        		glEnd();
         		// White - right eye
         		glColor3f(1.0,1.0,1.0);
         		glBegin(GL_QUADS);
             		glVertex2d(posx[i]+0.6,posy[i]+0.2); glVertex2d(posx[i]+1+0.2,posy[i]+0.2);
 					glVertex2d(posx[i]+1+0.2,posy[i]+1-0.2); glVertex2d(posx[i]+0.6,posy[i]+1-0.2);
         		glEnd();
-//        		glColor3f(0.0,0.0,0.0);
-//        		glBegin(GL_LINE_LOOP);
-//            		glVertex2d(posx[i]+0.6,posy[i]+0.2); glVertex2d(posx[i]+1+0.2,posy[i]+0.2);
-//					glVertex2d(posx[i]+1+0.2,posy[i]+1-0.2); glVertex2d(posx[i]+0.6,posy[i]+1-0.2);
-//        		glEnd();
         		
         		glColor3f(0.0,0.0,0.0);
         		float a,b;
@@ -189,22 +179,12 @@ void draw_snake()
             		glVertex2d(posx[i]+0.2,posy[i]+0.6); glVertex2d(posx[i]+1-0.2,posy[i]+0.6);
 					glVertex2d(posx[i]+1-0.2,posy[i]+1+0.2); glVertex2d(posx[i]+0.2,posy[i]+1+0.2);
         		glEnd();
-//        		glColor3f(0.0,0.0,0.0);
-//        		glBegin(GL_LINE_LOOP);
-//            		glVertex2d(posx[i]+0.2,posy[i]+0.6); glVertex2d(posx[i]+1-0.2,posy[i]+0.6);
-//					glVertex2d(posx[i]+1-0.2,posy[i]+1+0.2); glVertex2d(posx[i]+0.2,posy[i]+1+0.2);
-//        		glEnd();
         		// White - under eye
         		glColor3f(1.0,1.0,1.0);
         		glBegin(GL_QUADS);
             		glVertex2d(posx[i]+0.2,posy[i]-0.2); glVertex2d(posx[i]+1-0.2,posy[i]-0.2);
 					glVertex2d(posx[i]+1-0.2,posy[i]+1-0.6); glVertex2d(posx[i]+0.2,posy[i]+1-0.6);
         		glEnd();
-//        		glColor3f(0.0,0.0,0.0);
-//        		glBegin(GL_LINE_LOOP);
-//            		glVertex2d(posx[i]+0.2,posy[i]-0.2); glVertex2d(posx[i]+1-0.2,posy[i]-0.2);
-//					glVertex2d(posx[i]+1-0.2,posy[i]+1-0.6); glVertex2d(posx[i]+0.2,posy[i]+1-0.6);
-//        		glEnd();
         		
         		glColor3f(0.0,0.0,0.0);
         		float a,b;
@@ -330,14 +310,14 @@ void unit(int x,int y)
     } else {
     	if (y%2 == 0) {
     		if (x%2 != 0) {
-    		glColor3f(0.6,0.8,0.3);
-    		glBegin(GL_QUADS);
-    			glVertex2d(x,y);
-				glVertex2d(x+1,y);
-				glVertex2d(x+1,y+1);
-				glVertex2d(x,y+1);
-    		glEnd();
-		}
+    			glColor3f(0.6,0.8,0.3);
+    			glBegin(GL_QUADS);
+    				glVertex2d(x,y);
+					glVertex2d(x+1,y);
+					glVertex2d(x+1,y+1);
+					glVertex2d(x,y+1);
+    			glEnd();
+			}
 		} else {
 			if (x%2 == 0) {
     			glColor3f(0.6,0.8,0.3);
