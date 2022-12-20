@@ -55,8 +55,10 @@ void display_callback()
     ifile.open("score.dat",std::ios::in);
     // check empty file
     if(ifile.peek() == std::ifstream::traits_type::eof()) {
+    	// if file emty => high score = 0.
     	high_score = 0;
 	} else {
+		// get content and assign to "data" variable
 		ifile>>data;
 		for(int i=0; i<strlen(data); i++) {
         	if(i>0) {

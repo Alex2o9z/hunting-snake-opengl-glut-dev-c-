@@ -82,6 +82,7 @@ void draw_snake()
 			glVertex2d(posx[i]+1,posy[i]+1);
 			glVertex2d(posx[i],posy[i]+1);
         glEnd();
+        // Draw border 
         glColor3f(0.0,0.0,0.0);
 		if (posy[i] != posy[i+1] || posy[i] != posy[i-1]) {
 			// line right
